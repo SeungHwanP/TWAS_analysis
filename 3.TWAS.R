@@ -1,3 +1,12 @@
+#############
+# make sumstats
+#############
+
+
+
+#############
+# Run TWAS
+#############
 # conda activate R_4.3.1
 # R
 setwd("~/result_pleio")

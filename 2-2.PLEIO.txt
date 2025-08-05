@@ -1,0 +1,84 @@
+#############
+# Run PLEIO-preprocess
+#############
+conda activate base
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+~/pleio/ldsc_preprocess.py \
+ --input ~/2.PLEIO/UKB_T2D_adjBMI/UKB_T2D_adjBMI_"$out"_input_list.txt \
+ --ref-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --w-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --out ~/2.PLEIO/UKB_T2D_adjBMI/1."$out"
+done
+
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+~/pleio/ldsc_preprocess.py \
+ --input ~/2.PLEIO/UKB_BMI/UKB_BMI_"$out"_input_list.txt \
+ --ref-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --w-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --out ~/2.PLEIO/UKB_BMI/1."$out"
+done
+
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+~/pleio/ldsc_preprocess.py \
+ --input ~/2.PLEIO/UKB_WHR/UKB_WHR_"$out"_input_list.txt \
+ --ref-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --w-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --out ~/2.PLEIO/UKB_WHR/1."$out"
+done
+
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+~/pleio/ldsc_preprocess.py \
+ --input ~/2.PLEIO/UKB_WC/UKB_WC_"$out"_input_list.txt \
+ --ref-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --w-ld-chr /storage0/dataOthers/eur_w_ld_chr/ \
+ --out ~/2.PLEIO/UKB_WC/1."$out"
+done
+
+
+#############
+# Run PLEIO
+#############
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Sev UKB_COVID_Inf; do
+~/pleio/pleio.py \
+--metain ~/2.PLEIO/UKB_T2D/1."$out"/metain.txt.gz \
+--sg ~/2.PLEIO/UKB_T2D/1."$out"/sg.txt.gz \
+--ce ~/2.PLEIO/UKB_T2D/1."$out"/ce.txt.gz \
+--blup \
+--nis 459119 \
+--create \
+--out ~/2.PLEIO/UKB_T2D/2."$out"
+done
+
+# T2D adjusted BMI
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Sev UKB_COVID_Inf; do
+~/pleio/pleio.py \
+--metain ~/2.PLEIO/UKB_T2D_adjBMI/1."$out"/metain.txt.gz \
+--sg ~/2.PLEIO/UKB_T2D_adjBMI/1."$out"/sg.txt.gz \
+--ce ~/2.PLEIO/UKB_T2D_adjBMI/1."$out"/ce.txt.gz \
+--blup \
+--nis 457670 \
+--create \
+--out ~/2.PLEIO/UKB_T2D_adjBMI/2."$out"
+done
+
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+~/pleio/pleio.py \
+--metain ~/2.PLEIO/UKB_BMI/1."$out"/metain.txt.gz \
+--sg ~/2.PLEIO/UKB_BMI/1."$out"/sg.txt.gz \
+--ce ~/2.PLEIO/UKB_BMI/1."$out"/ce.txt.gz \
+--blup \
+--nis 457753 \
+--create \
+--out ~/2.PLEIO/UKB_BMI/2."$out"
+done
+
+for out in HGI_COVID_Sev HGI_COVID_Inf UKB_COVID_Inf UKB_COVID_Sev; do
+"~/pleio/pleio.py \
+--metain ~/2.PLEIO/UKB_WHR/1."$out"/metain.txt.gz \
+--sg ~/2.PLEIO/UKB_WHR/1."$out"/sg.txt.gz \
+--ce ~/2.PLEIO/UKB_WHR/1."$out"/ce.txt.gz \
+--blup \
+--nis 458246 \
+--create \
+--out ~/2.PLEIO/UKB_WHR/2."$out"
+done
