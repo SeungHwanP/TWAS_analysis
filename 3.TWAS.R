@@ -7,18 +7,11 @@
 #############
 # Run TWAS
 #############
-# conda activate R_4.3.1
-# R
 setwd("~/result_pleio")
 rm(list=ls())
 library(glue)
 library(data.table)
 folders <- list.files("~/GTEx/",".tar.gz")
-folders <- gsub(".tar.gz","",folders)
-folder <- folders[1]
-
-dirs <- list.dirs(".",recursive = T)
-
 for(dir in dirs){
   print(dir)
   folder <- folders[1]
@@ -32,9 +25,9 @@ for(dir in dirs){
       if(length(system(glue("cat {dir}/{folder}/Fusion_{chr}.log |grep complete"),intern=T)) <1){
         Rscript <- glue("/usr/local/bin/Rscript ~/fusion_twas/FUSION.assoc_test.R --sumstats {dir}/1.sumstat.sumstats.gz --weights ~/GTEx/{folder}.pos --weights_dir ~/GTEx/ --ref_ld_chr ~/LDREF/chr --chr {chr} --out {dir}/{folder}/Fusion_{chr}.dat")
         if(is.null(numbers)){
-          sbatch <- glue("/usr/bin/sbatch -n 1 --mem=30G --nice=0 -o {dir}/{folder}/Fusion_{chr}.log -J {j}_{i}_{chr} --wrap='{Rscript}'")
+          sbatch <- glue("/usr/bin/sbatch -n 1 --mem=30G -o {dir}/{folder}/Fusion_{chr}.log -J {j}_{i}_{chr} --wrap='{Rscript}'")
         }else{
-          sbatch <- glue("/usr/bin/sbatch -n 1 -d afterok:{numbers} --mem=30G --nice=0 -o {dir}/{folder}/Fusion_{chr}.log -J {j}_{i}_{chr} --wrap='{Rscript}'")
+          sbatch <- glue("/usr/bin/sbatch -n 1 -d afterok:{numbers} --mem=30G -o {dir}/{folder}/Fusion_{chr}.log -J {j}_{i}_{chr} --wrap='{Rscript}'")
         }
         numbers <- system(sbatch,intern=T)
         numbers <- as.numeric(gsub("Submitted batch job ","",numbers))
