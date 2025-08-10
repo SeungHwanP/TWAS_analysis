@@ -114,7 +114,6 @@ for(dir in dirs){
     #print(folder)
     folders2 <- list.dirs(folder,recursive=F)
     ress <- NULL
-    folder2 <- folders2[1]
     i <- 1
     for(folder2 in folders2){
       print(folder2)
